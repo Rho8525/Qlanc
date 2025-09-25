@@ -3,11 +3,13 @@
 #include "raylib.h"
 #include "player.h"
 #include "barrier.h"
+#include "enemy.h"
 
 const int width = 800;
 const int height = 450;
 
 Player player;
+Enemy enemy;
 
 Barrier* barriers[MAX_BARRIERS];
 
@@ -16,6 +18,8 @@ int main(void) {
     InitWindow(width, height, "RHALQ");
 
     init_player(&player, (Vector2) { 0, 0 });
+
+    init_enemy(&enemy, (Vector2) { 0, 0 });
 
     SetTargetFPS(60);
 
@@ -37,10 +41,10 @@ int main(void) {
 
         if (player.is_barriering) {
             int spawned = 0;
-            for (int i=0; i<MAX_BARRIERS && spawned < 30; i++) {
+            for (int i=0; i<MAX_BARRIERS && spawned < 15; i++) {
                 if (barriers[i] == NULL) {
                     barriers[i] = (Barrier*)malloc(sizeof(Barrier));
-                    double angle = (2 * PI / 30) * spawned;
+                    double angle = (2 * PI / 15) * spawned;
                     init_barrier(barriers[i], player.pos, (Vector2){ cos(angle) * (double) 500.0, sin(angle) * (double) 500.0 });
                     spawned++;
                 }
@@ -57,6 +61,8 @@ int main(void) {
             }
         }
 
+        update_enemy(&enemy, dt, player.pos);
+
         BeginDrawing();
 
         ClearBackground(RAYWHITE);
@@ -69,6 +75,7 @@ int main(void) {
             }
         }
         
+        draw_enemy(&enemy);
 
         EndDrawing();
     }

@@ -17,8 +17,8 @@ void update_barrier(Barrier* barrier, double dt) {
         barrier->pos.x += barrier->vel.x * dt;
         barrier->pos.y += barrier->vel.y * dt;
 
-        barrier->vel.x *= 0.9;
-        barrier->vel.y *= 0.9;
+        barrier->vel.x *= 0.93;
+        barrier->vel.y *= 0.93;
 
         barrier->life -= 0.01;
 
