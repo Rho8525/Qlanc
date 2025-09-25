@@ -8,6 +8,7 @@
 typedef struct Barrier {
     Vector2 pos;
     Vector2 vel;
+    double speed;
     double size;
     double life;
     bool active;

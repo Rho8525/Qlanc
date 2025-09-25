@@ -1,4 +1,5 @@
 #include "stdlib.h"
+#include "math.h"
 #include "raylib.h"
 #include "player.h"
 #include "barrier.h"
@@ -36,10 +37,11 @@ int main(void) {
 
         if (player.is_barriering) {
             int spawned = 0;
-            for (int i=0; i<MAX_BARRIERS && spawned < 2; i++) {
+            for (int i=0; i<MAX_BARRIERS && spawned < 30; i++) {
                 if (barriers[i] == NULL) {
                     barriers[i] = (Barrier*)malloc(sizeof(Barrier));
-                    init_barrier(barriers[i], player.pos, player.vel);
+                    double angle = (2 * PI / 30) * spawned;
+                    init_barrier(barriers[i], player.pos, (Vector2){ cos(angle) * (double) 500.0, sin(angle) * (double) 500.0 });
                     spawned++;
                 }
             }
