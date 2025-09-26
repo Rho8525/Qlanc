@@ -1,7 +1,10 @@
 #ifndef PARTICLE_H
 #define PARTICLE_H
 
+#include <stdlib.h>
 #include "raylib.h"
+
+#define MAX_PARTICLES 500
 
 typedef struct Particle {
     Vector2 pos;
