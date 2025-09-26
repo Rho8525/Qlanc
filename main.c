@@ -51,7 +51,7 @@ int main(void) {
                 if (barriers[i] == NULL) {
                     barriers[i] = (Barrier*)malloc(sizeof(Barrier));
                     double angle = (2 * PI / 15) * spawned;
-                    init_barrier(barriers[i], player.pos, (Vector2){ cos(angle) * (double) 500.0, sin(angle) * (double) 500.0 });
+                    init_barrier(barriers[i], player.pos, player.pos, (Vector2){ cos(angle) * (double) 500.0, sin(angle) * (double) 500.0 });
                     spawned++;
                 }
             }
@@ -60,6 +60,7 @@ int main(void) {
         for (int i=0; i<MAX_BARRIERS; i++) {
             if (barriers[i] != NULL) {
                 update_barrier(barriers[i], dt);
+                repel_barrier(barriers[i], &enemy);
                 if (!barriers[i]->active) {
                     free(barriers[i]);
                     barriers[i] = NULL;
