@@ -19,6 +19,5 @@ typedef struct Player {
 void init_player(Player* player, Vector2 p);
 void update_player(Player* player, double dt);
 void draw_player(Player* player);
-void player_barrier(Player* player);
 
 #endif // PLAYER_H

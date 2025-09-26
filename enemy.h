@@ -8,6 +8,7 @@ typedef struct Enemy {
     Vector2 vel;
     double size;
     double csize;
+    bool is_active;
 } Enemy;
 
 void init_enemy(Enemy* enemy, Vector2 p);

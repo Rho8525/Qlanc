@@ -81,7 +81,7 @@ int main(void) {
             }
         }
         
-        draw_enemy(&enemy);
+        if (enemy.is_active) draw_enemy(&enemy);
 
         EndDrawing();
     }
