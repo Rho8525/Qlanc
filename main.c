@@ -1,6 +1,6 @@
 #include "stdlib.h"
-#include "math.h"
 #include "raylib.h"
+#include "raymath.h"
 #include "player.h"
 #include "barrier.h"
 #include "enemy.h"
@@ -15,7 +15,7 @@ Barrier* barriers[MAX_BARRIERS];
 
 int main(void) {
 
-    InitWindow(width, height, "RHALQ");
+    InitWindow(width, height, "Qlanc");
 
     init_player(&player, (Vector2) { 0, 0 });
 
@@ -40,6 +40,12 @@ int main(void) {
         }
 
         if (player.is_barriering) {
+            player.is_barriering = false;
+            player.csize -= 5.0;
+            if (player.csize <= 5.0) {
+                player.layer--;
+                player.csize = player.size;
+            }
             int spawned = 0;
             for (int i=0; i<MAX_BARRIERS && spawned < 15; i++) {
                 if (barriers[i] == NULL) {

@@ -1,6 +1,7 @@
 #include "player.h"
 #include "stdlib.h"
 #include "raylib.h"
+#include "raymath.h"
 
 void init_player(Player* player, Vector2 p) {
     if (player != NULL) {
@@ -19,21 +20,24 @@ void init_player(Player* player, Vector2 p) {
 
 void update_player(Player* player, double dt) {
     if (player != NULL) {
-        if (player->fwd) {
-            player->vel.y = player->fwd * player->speed;
+        Vector2 input = { (float) player->dir, (float) player->fwd };
+        if (input.x != 0 || input.y != 0) {
+            input = Vector2Normalize(input);
+            player->vel.x = input.x * player->speed;
+            player->vel.y = input.y * player->speed;
         }
-        if (player->dir) {
-            player->vel.x = player->dir * player->speed;
-        }
+
         player->pos.x += player->vel.x * dt;
         player->pos.y += player->vel.y * dt;
 
         player->vel.x *= 0.9;
         player->vel.y *= 0.9;
 
-        if (player->is_barriering) {
-            player->is_barriering = false;
+        if (player->csize <= player->size) {
+            player->csize += 0.03;
         }
+
+        if (player->csize > player->size) player->csize = player->size;
     }
 }
 
