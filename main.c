@@ -66,10 +66,10 @@ int main(void) {
                 player.csize = player.size;
             }
             int spawned = 0;
-            for (int i=0; i<MAX_BARRIERS && spawned < 15; i++) {
+            for (int i=0; i<MAX_BARRIERS && spawned < 45; i++) {
                 if (barriers[i] == NULL) {
                     barriers[i] = (Barrier*)malloc(sizeof(Barrier));
-                    double angle = (2 * PI / 15) * spawned;
+                    double angle = (2 * PI / 45) * spawned;
                     init_barrier(barriers[i], player.pos, player.pos, (Vector2){ cos(angle) * (double) 500.0, sin(angle) * (double) 500.0 });
                     spawned++;
                 }
