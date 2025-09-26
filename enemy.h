@@ -1,7 +1,11 @@
 #ifndef ENEMY_H
 #define ENEMY_H
 
+#include "stdlib.h"
 #include "raylib.h"
+#include "raymath.h"
+
+#define MAX_ENEMIES 500
 
 typedef struct Enemy {
     Vector2 pos;

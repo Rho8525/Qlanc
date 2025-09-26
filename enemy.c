@@ -1,6 +1,3 @@
-#include "stdlib.h"
-#include "raylib.h"
-#include "raymath.h"
 #include "enemy.h"
 
 void init_enemy(Enemy* enemy, Vector2 p) {

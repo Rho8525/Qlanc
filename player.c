@@ -1,7 +1,4 @@
 #include "player.h"
-#include "stdlib.h"
-#include "raylib.h"
-#include "raymath.h"
 
 void init_player(Player* player, Vector2 p) {
     if (player != NULL) {

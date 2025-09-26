@@ -1,8 +1,4 @@
-#include "stdlib.h"
-#include "raylib.h"
-#include "raymath.h"
 #include "barrier.h"
-#include "enemy.h"
 
 void init_barrier(Barrier* barrier, Vector2 c, Vector2 p, Vector2 v) {
     if (barrier != NULL) {
