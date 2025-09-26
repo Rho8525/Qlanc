@@ -2,6 +2,7 @@
 #include "raylib.h"
 #include "raymath.h"
 #include "player.h"
+#include "particle.h"
 #include "barrier.h"
 #include "enemy.h"
 #include "timer.h"
@@ -10,21 +11,24 @@
 const int width = 800;
 const int height = 450;
 
-Timer spawn_enemy;
+Timer spawn_enemy_timer;
 
 // create player
 Player player;
 
 // create barriers and enemies container
+Particle* particles[MAX_PARTICLES];
 Barrier* barriers[MAX_BARRIERS];
 Enemy* enemies[MAX_ENEMIES];
+
+void spawn_particles(Vector2 p);
 
 int main(void) {
     // init window
     InitWindow(width, height, "Qlanc");
 
     // init spawn enemy timer
-    init_timer(&spawn_enemy, 0.5);
+    init_timer(&spawn_enemy_timer, 0.5);
 
     // init player
     init_player(&player, (Vector2) { 0, 0 });
@@ -38,16 +42,15 @@ int main(void) {
         double dt = GetFrameTime();
 
         // update timer
-        update_timer(&spawn_enemy, dt);
+        update_timer(&spawn_enemy_timer, dt);
 
         // spawn enemy
-        if (spawn_enemy.active) {
-            spawn_enemy.active = false;
+        if (spawn_enemy_timer.active) {
+            spawn_enemy_timer.active = false;
             int spawned = 0;
             for (int i=0; i<MAX_ENEMIES && spawned < 1; i++) {
                 if (enemies[i] == NULL) {
                     enemies[i] = (Enemy*)malloc(sizeof(Enemy));
-                    double angle = (2 * PI / 15) * spawned;
                     init_enemy(enemies[i], (Vector2) { 0, 0 });
                     spawned++;
                 }
@@ -68,6 +71,7 @@ int main(void) {
         // player barrier
         if (IsKeyPressed(KEY_SPACE)) {
             if (player.can_barrier) player.is_barriering = true;
+            spawn_particles(player.pos);
         }
 
         if (player.is_barriering) {
@@ -88,6 +92,17 @@ int main(void) {
             }
         }
 
+        // update particles
+        for (int i=0; i<MAX_PARTICLES; i++) {
+            if (particles[i] != NULL) {
+                update_particle(particles[i], dt);
+                if (!particles[i]->active) {
+                    free(particles[i]);
+                    particles[i] = NULL;
+                }
+            }
+        }
+
         // update barrier
         for (int i=0; i<MAX_BARRIERS; i++) {
             if (barriers[i] != NULL) {
@@ -98,6 +113,7 @@ int main(void) {
                     }
                 }
                 if (!barriers[i]->active) {
+                    spawn_particles(barriers[i]->pos);
                     free(barriers[i]);
                     barriers[i] = NULL;
                 }
@@ -109,6 +125,7 @@ int main(void) {
             if (enemies[i] != NULL) {
                 update_enemy(enemies[i], dt, player.pos);
                 if (!enemies[i]->is_active) {
+                    spawn_particles(enemies[i]->pos);
                     free(enemies[i]);
                     enemies[i] = NULL;
                 }
@@ -119,6 +136,13 @@ int main(void) {
         BeginDrawing();
 
         ClearBackground(BLACK);
+
+        // draw particles
+        for (int i=0; i<MAX_PARTICLES; i++) {
+            if (particles[i] != NULL) {
+                draw_particle(particles[i]);
+            }
+        }
 
         // draw the player
         draw_player(&player);
@@ -145,13 +169,28 @@ int main(void) {
     CloseWindow();
 
     // clean containers
+    for (int i=0; i<MAX_PARTICLES; i++) {
+        if (particles[i] != NULL) free(particles[i]); particles[i] == NULL;
+    }
+
     for (int i=0; i<MAX_ENEMIES; i++) {
-        if (enemies[i] != NULL) free(enemies[i]);
+        if (enemies[i] != NULL) free(enemies[i]); enemies[i] = NULL;
     }
 
     for (int i=0; i<MAX_BARRIERS; i++) {
-        if (barriers[i] != NULL) free(barriers[i]);
+        if (barriers[i] != NULL) free(barriers[i]); barriers[i] = NULL;
     }
 
     return 0;
+}
+
+void spawn_particles(Vector2 p) {
+    int spawned = 0;
+    for (int i=0; i<MAX_PARTICLES && spawned < 5; i++) {
+        if (particles[i] == NULL) {
+            particles[i] = (Particle*)malloc(sizeof(Particle));
+            init_particle(particles[i], p, (Vector2) { 200, 200 });
+            spawned++;
+        }
+    }
 }
