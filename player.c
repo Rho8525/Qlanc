@@ -40,6 +40,6 @@ void update_player(Player* player, double dt) {
 
 void draw_player(Player* player) {
     if (player != NULL) {
-        DrawCircleV(player->pos, player->csize, MAROON);
+        DrawCircleV(player->pos, player->csize, RED);
     }
 }

@@ -1,7 +1,7 @@
 #ifndef BARRIER_H
 #define BARRIER_H
 
-#include "stdlib.h"
+#include <stdlib.h>
 #include "raylib.h"
 #include "raymath.h"
 #include "enemy.h"

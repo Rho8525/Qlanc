@@ -1,5 +1,4 @@
-#include "stdlib.h"
-#include "stdio.h"
+#include <stdlib.h>
 #include "raylib.h"
 #include "raymath.h"
 #include "player.h"
@@ -119,12 +118,7 @@ int main(void) {
         // start drawing on the screen
         BeginDrawing();
 
-        ClearBackground(RAYWHITE);
-
-        // draw spawn enemy timer
-        char label[20];
-        sprintf(label, "%f", spawn_enemy.timer);
-        DrawText(label, 10, 10, 16, BLACK);
+        ClearBackground(BLACK);
 
         // draw the player
         draw_player(&player);

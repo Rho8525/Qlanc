@@ -1,7 +1,7 @@
 #ifndef ENEMY_H
 #define ENEMY_H
 
-#include "stdlib.h"
+#include <stdlib.h>
 #include "raylib.h"
 #include "raymath.h"
 
@@ -10,6 +10,8 @@
 typedef struct Enemy {
     Vector2 pos;
     Vector2 vel;
+    double speed;
+    double max_speed;
     double size;
     double csize;
     bool is_active;

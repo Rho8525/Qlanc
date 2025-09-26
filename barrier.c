@@ -28,7 +28,7 @@ void update_barrier(Barrier* barrier, double dt) {
 
 void draw_barrier(Barrier* barrier) {
     if (barrier != NULL) {
-        Color c = Fade(MAROON, barrier->life);
+        Color c = Fade(RED, barrier->life);
         DrawCircleV(barrier->pos, barrier->size, c);
     }
 }
