@@ -60,6 +60,16 @@ int main(void) {
         // update player
         update_player(&player, dt);
 
+        for (int i=0; i<MAX_ENEMIES; i++) {
+            if (enemies[i] != NULL) {
+                if (collide_with_enemy(&player, enemies[i])) {
+                    if (enemies[i]->csize <= 10) {
+                        enemies[i]->is_active = false;
+                    }
+                }
+            }
+        }
+
         // player movement
         player.fwd = 0;
         player.dir = 0;
@@ -186,10 +196,15 @@ int main(void) {
 
 void spawn_particles(Vector2 p) {
     int spawned = 0;
-    for (int i=0; i<MAX_PARTICLES && spawned < 5; i++) {
+    for (int i=0; i<MAX_PARTICLES && spawned < 3; i++) {
         if (particles[i] == NULL) {
             particles[i] = (Particle*)malloc(sizeof(Particle));
-            init_particle(particles[i], p, (Vector2) { 200, 200 });
+            
+            double angle = GetRandomValue(0, 359) * (PI / 180.0f);
+            double speed = GetRandomValue(100.0, 300.0);
+            Vector2 velocity = { cos(angle) * speed, sin(angle) * speed };
+
+            init_particle(particles[i], p, velocity);
             spawned++;
         }
     }

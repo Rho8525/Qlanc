@@ -43,3 +43,11 @@ void draw_player(Player* player) {
         DrawCircleV(player->pos, player->csize, RED);
     }
 }
+
+bool collide_with_enemy(Player* player, Enemy* enemy) {
+    double dist = hypot(player->pos.x - enemy->pos.x, player->pos.y - enemy->pos.y);
+    if (dist - player->csize - enemy->csize <= 1) {
+        return true;
+    }
+    return false;
+}

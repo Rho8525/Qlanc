@@ -24,7 +24,7 @@ void update_enemy(Enemy* enemy, double dt, Vector2 target) {
         enemy->pos.y += enemy->vel.y * dt;
 
         enemy->csize -= 0.05;
-        if (enemy->csize <= 5.0) {
+        if (enemy->csize <= 3.0) {
             enemy->is_active = false;
         }
     }
