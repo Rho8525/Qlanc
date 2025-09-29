@@ -11,6 +11,7 @@
 const int width = 800;
 const int height = 450;
 
+// create timer for spawning enemy
 Timer spawn_enemy_timer;
 
 // create player
@@ -21,6 +22,7 @@ Particle* particles[MAX_PARTICLES];
 Barrier* barriers[MAX_BARRIERS];
 Enemy* enemies[MAX_ENEMIES];
 
+// create function for spawning particles
 void spawn_particles(Vector2 p);
 
 int main(void) {
@@ -59,7 +61,9 @@ int main(void) {
 
         // update player
         update_player(&player, dt);
-
+        
+        // check if any enemy with small size collide with the player
+        // if yes then destroy it
         for (int i=0; i<MAX_ENEMIES; i++) {
             if (enemies[i] != NULL) {
                 if (collide_with_enemy(&player, enemies[i])) {
@@ -84,6 +88,7 @@ int main(void) {
             spawn_particles(player.pos);
         }
 
+        // player deploy barrier when pressing space button
         if (player.is_barriering) {
             player.is_barriering = false;
             player.csize -= 5.0;
@@ -145,6 +150,7 @@ int main(void) {
         // start drawing on the screen
         BeginDrawing();
 
+        // background
         ClearBackground(BLACK);
 
         // draw particles
@@ -194,6 +200,7 @@ int main(void) {
     return 0;
 }
 
+// spawn particles function
 void spawn_particles(Vector2 p) {
     int spawned = 0;
     for (int i=0; i<MAX_PARTICLES && spawned < 3; i++) {

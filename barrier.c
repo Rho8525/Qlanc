@@ -5,7 +5,6 @@ void init_barrier(Barrier* barrier, Vector2 c, Vector2 p, Vector2 v) {
         barrier->pos = p;
         barrier->vel = v;
         barrier->center = c;
-        barrier->speed = 500.0;
         barrier->size = 5.0;
         barrier->life = 1.0;
         barrier->active = true;
